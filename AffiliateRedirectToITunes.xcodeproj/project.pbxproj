@@ -13,7 +13,7 @@
 		A00F253F1E2F062800C3F61F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A00F253D1E2F062800C3F61F /* Main.storyboard */; };
 		A00F25411E2F062800C3F61F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A00F25401E2F062800C3F61F /* Assets.xcassets */; };
 		A00F25441E2F062800C3F61F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A00F25421E2F062800C3F61F /* LaunchScreen.storyboard */; };
-		A00F254D1E2F075400C3F61F /* AffiliateRedirectToITunes.m in Sources */ = {isa = PBXBuildFile; fileRef = A00F254C1E2F075400C3F61F /* AffiliateRedirectToITunes.m */; };
+		A0E728E81E2F7472004CD5DA /* AffiliateRedirectToITunes.m in Sources */ = {isa = PBXBuildFile; fileRef = A0E728E71E2F7472004CD5DA /* AffiliateRedirectToITunes.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,8 +27,8 @@
 		A00F25401E2F062800C3F61F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A00F25431E2F062800C3F61F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A00F25451E2F062800C3F61F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A00F254B1E2F075400C3F61F /* AffiliateRedirectToITunes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AffiliateRedirectToITunes.h; sourceTree = "<group>"; };
-		A00F254C1E2F075400C3F61F /* AffiliateRedirectToITunes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AffiliateRedirectToITunes.m; sourceTree = "<group>"; };
+		A0E728E61E2F7472004CD5DA /* AffiliateRedirectToITunes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AffiliateRedirectToITunes.h; sourceTree = "<group>"; };
+		A0E728E71E2F7472004CD5DA /* AffiliateRedirectToITunes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AffiliateRedirectToITunes.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +61,7 @@
 		A00F25331E2F062800C3F61F /* AffiliateRedirectToItunes */ = {
 			isa = PBXGroup;
 			children = (
+				A0E728E51E2F7472004CD5DA /* AffiliateRedirectToITunes */,
 				A00F25371E2F062800C3F61F /* AppDelegate.h */,
 				A00F25381E2F062800C3F61F /* AppDelegate.m */,
 				A00F253A1E2F062800C3F61F /* ViewController.h */,
@@ -70,8 +71,6 @@
 				A00F25421E2F062800C3F61F /* LaunchScreen.storyboard */,
 				A00F25451E2F062800C3F61F /* Info.plist */,
 				A00F25341E2F062800C3F61F /* Supporting Files */,
-				A00F254B1E2F075400C3F61F /* AffiliateRedirectToITunes.h */,
-				A00F254C1E2F075400C3F61F /* AffiliateRedirectToITunes.m */,
 			);
 			path = AffiliateRedirectToItunes;
 			sourceTree = "<group>";
@@ -82,6 +81,15 @@
 				A00F25351E2F062800C3F61F /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A0E728E51E2F7472004CD5DA /* AffiliateRedirectToITunes */ = {
+			isa = PBXGroup;
+			children = (
+				A0E728E61E2F7472004CD5DA /* AffiliateRedirectToITunes.h */,
+				A0E728E71E2F7472004CD5DA /* AffiliateRedirectToITunes.m */,
+			);
+			path = AffiliateRedirectToITunes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -156,10 +164,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A00F254D1E2F075400C3F61F /* AffiliateRedirectToITunes.m in Sources */,
 				A00F253C1E2F062800C3F61F /* ViewController.m in Sources */,
 				A00F25391E2F062800C3F61F /* AppDelegate.m in Sources */,
 				A00F25361E2F062800C3F61F /* main.m in Sources */,
+				A0E728E81E2F7472004CD5DA /* AffiliateRedirectToITunes.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
