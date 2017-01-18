@@ -1,2 +1,2 @@
 # AffiliateRedirectToITunes
-Affiliate redirect to iTunes
+Affiliate redirect to iTunes using NSURLSession.
