@@ -18,10 +18,6 @@ static NSString * const kITunesItemIdentifierKey = @"id";
 
 @interface AffiliateRedirectToITunes () <NSURLSessionDelegate>
 
-@property (nonatomic, strong) NSURL *url;
-
-@property (nonatomic, copy) AffiliateRedirectToITunesBlock block;
-
 @property (nonatomic, strong) NSURL *redirectUrl;
 
 @property (nonatomic, assign) BOOL redirecting;

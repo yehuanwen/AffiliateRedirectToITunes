@@ -13,11 +13,11 @@ typedef void (^AffiliateRedirectToITunesBlock)(NSURL *itunesUrl, NSString *iTune
 
 @interface AffiliateRedirectToITunes : NSObject
 
-- (instancetype)initWithUrl:(NSURL *)url;// Designated init method
+- (instancetype)initWithUrl:(NSURL *)url;// init with affiliate url
 
-@property (nonatomic, strong, readonly) NSURL *url;// affiliate url
+@property (nonatomic, strong) NSURL *url;// affiliate url
 @property NSTimeInterval timeoutIntervalForRequest;// request timeout interval
-
+@property (nonatomic, copy) AffiliateRedirectToITunesBlock block;// block
 - (void)startRedirecting;// start redirecting...
 - (void)startRedirectingWithBlock:(AffiliateRedirectToITunesBlock)block;// start redirecting...with block
 
