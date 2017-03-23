@@ -13,6 +13,7 @@
 		A00F253F1E2F062800C3F61F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A00F253D1E2F062800C3F61F /* Main.storyboard */; };
 		A00F25411E2F062800C3F61F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A00F25401E2F062800C3F61F /* Assets.xcassets */; };
 		A00F25441E2F062800C3F61F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A00F25421E2F062800C3F61F /* LaunchScreen.storyboard */; };
+		A0C73C911E80D9B900AD07DF /* DetectITunesLink.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C73C901E80D9B900AD07DF /* DetectITunesLink.m */; };
 		A0E728E81E2F7472004CD5DA /* AffiliateRedirectToITunes.m in Sources */ = {isa = PBXBuildFile; fileRef = A0E728E71E2F7472004CD5DA /* AffiliateRedirectToITunes.m */; };
 		A0E728EB1E2F7B2D004CD5DA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0E728EA1E2F7B2D004CD5DA /* UIKit.framework */; };
 		A0E728ED1E2F7B32004CD5DA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0E728EC1E2F7B32004CD5DA /* Foundation.framework */; };
@@ -29,6 +30,8 @@
 		A00F25401E2F062800C3F61F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A00F25431E2F062800C3F61F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A00F25451E2F062800C3F61F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A0C73C8F1E80D9B900AD07DF /* DetectITunesLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetectITunesLink.h; sourceTree = "<group>"; };
+		A0C73C901E80D9B900AD07DF /* DetectITunesLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetectITunesLink.m; sourceTree = "<group>"; };
 		A0E728E61E2F7472004CD5DA /* AffiliateRedirectToITunes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AffiliateRedirectToITunes.h; sourceTree = "<group>"; };
 		A0E728E71E2F7472004CD5DA /* AffiliateRedirectToITunes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AffiliateRedirectToITunes.m; sourceTree = "<group>"; };
 		A0E728EA1E2F7B2D004CD5DA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -68,6 +71,7 @@
 		A00F25331E2F062800C3F61F /* AffiliateRedirectToItunes */ = {
 			isa = PBXGroup;
 			children = (
+				A0C73C8E1E80D9B900AD07DF /* DetectITunesLink */,
 				A0E728E51E2F7472004CD5DA /* AffiliateRedirectToITunes */,
 				A00F25371E2F062800C3F61F /* AppDelegate.h */,
 				A00F25381E2F062800C3F61F /* AppDelegate.m */,
@@ -88,6 +92,15 @@
 				A00F25351E2F062800C3F61F /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A0C73C8E1E80D9B900AD07DF /* DetectITunesLink */ = {
+			isa = PBXGroup;
+			children = (
+				A0C73C8F1E80D9B900AD07DF /* DetectITunesLink.h */,
+				A0C73C901E80D9B900AD07DF /* DetectITunesLink.m */,
+			);
+			path = DetectITunesLink;
 			sourceTree = "<group>";
 		};
 		A0E728E51E2F7472004CD5DA /* AffiliateRedirectToITunes */ = {
@@ -183,6 +196,7 @@
 				A00F253C1E2F062800C3F61F /* ViewController.m in Sources */,
 				A00F25391E2F062800C3F61F /* AppDelegate.m in Sources */,
 				A00F25361E2F062800C3F61F /* main.m in Sources */,
+				A0C73C911E80D9B900AD07DF /* DetectITunesLink.m in Sources */,
 				A0E728E81E2F7472004CD5DA /* AffiliateRedirectToITunes.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

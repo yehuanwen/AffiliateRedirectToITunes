@@ -90,7 +90,7 @@ didCompleteWithError:(nullable NSError *)error {
         self.block(nil, nil, error);
     } else {
         NSError *error = [NSError errorWithDomain:kAffiliateRedirectToITunesDomain
-                                             code:1
+                                             code:-1
                                          userInfo:@{NSLocalizedDescriptionKey:@"itunes URL not founded"}];
         self.block(nil, nil, error);
     }
