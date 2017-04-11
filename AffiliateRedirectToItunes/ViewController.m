@@ -144,12 +144,12 @@
         
         DetectITunesLink *detectITunesLink = [[DetectITunesLink alloc] initWithUrl:url];
         detectITunesLink.logEnabled = YES;
-        [detectITunesLink startRedirectingWithBlock:^(NSURL *iTunesUrl, CGFloat detectTime, NSArray *links, NSError *error) {
+        [detectITunesLink startRedirectingWithBlock:^(NSURL *iTunesUrl, CGFloat detectDuration, NSArray *links, NSString *iTunesItemIdentifier, NSError *error) {
             if (error) {
                 NSLog(@"detect error = %@", error);
                 return;
             }
-            NSLog(@"detect iTunes url is %@, detect time is %@", iTunesUrl, @(detectTime));
+            NSLog(@"detect iTunes url is %@, detect time is %@", iTunesUrl, @(detectDuration));
             NSLog(@"redirect links are %@", links);
         }];
     }

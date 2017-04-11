@@ -12,6 +12,10 @@
 static NSString * const kDetectITunesLinkDomain = @"DetectITunesLink";
 
 static NSString * const kItunesDomain = @"itunes.apple.com";
+static NSString * const kAmpersand = @"&";
+static NSString * const kEquals = @"=";
+static NSString * const kQuestionMark = @"?";
+static NSString * const kITunesItemIdentifierKey = @"id";
 
 @interface DetectITunesLink () <UIWebViewDelegate>
 
@@ -29,10 +33,14 @@ static NSString * const kItunesDomain = @"itunes.apple.com";
 
 @implementation DetectITunesLink
 
+- (instancetype)init {
+    return [self initWithUrl:nil];
+}
+
 - (instancetype)initWithUrl:(NSURL *)url {
     if (self = [super init]) {
         _url = url;
-        _timeoutIntervalForRequest = 30;
+        _timeoutIntervalForEachRedirect = 5;
     }
     return self;
 }
@@ -62,6 +70,12 @@ static NSString * const kItunesDomain = @"itunes.apple.com";
     return _errorMessages;
 }
 
+- (void)stopDetecting {
+    self.block = nil;
+    [self stopTimer];
+    [self.webView stopLoading];
+}
+
 - (void)startRedirectingWithBlock:(DetectITunesLinkBlock)block {
     self.block = block;
     [self startDetecting];
@@ -75,36 +89,41 @@ static NSString * const kItunesDomain = @"itunes.apple.com";
     [self.links removeAllObjects];
     [self.errorMessages removeAllObjects];
     
+    [self stopTimer];
+    [self startTimer];
+    
     self.startTime = CFAbsoluteTimeGetCurrent();
     [self.webView loadRequest:[NSURLRequest requestWithURL:self.url]];
-    [self startTimer];
+    
 }
 
 - (void)startTimer {
-    // 取消定时器
-    [self stopTimer];
     // 获得队列
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     // 创建一个定时器
     self.timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
     // 设置回调
-    __weak __typeof(self) weakSelf = self;
+    __weak __typeof__(self) weakSelf = self;
     dispatch_source_set_event_handler(self.timer, ^{
-        [weakSelf stopTimer];
-        if (weakSelf.block) {
-            if (self.redirecting) {
-                self.redirecting = NO;
+        __strong __typeof__(self) strongSelf = weakSelf;
+        [strongSelf stopTimer];
+        [strongSelf.webView stopLoading];
+        if (strongSelf.block) {
+            if (strongSelf.redirecting) {
+                strongSelf.redirecting = NO;
             }
             NSError *error = [NSError errorWithDomain:kDetectITunesLinkDomain
                                                  code:-1
                                              userInfo:@{NSLocalizedDescriptionKey:@"Time out and itunes URL not founded"}];
-            weakSelf.block(nil, self.timeoutIntervalForRequest, self.links, error);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                strongSelf.block(nil, strongSelf.timeoutIntervalForEachRedirect, strongSelf.links, nil, error);
+            });
         }
     });
     // 设置开始时间
-    dispatch_time_t start = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.timeoutIntervalForRequest * NSEC_PER_SEC));
+    dispatch_time_t start = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.timeoutIntervalForEachRedirect * NSEC_PER_SEC));
     // 设置时间间隔
-    uint64_t interval = (uint64_t)(self.timeoutIntervalForRequest * NSEC_PER_SEC);
+    uint64_t interval = (uint64_t)(self.timeoutIntervalForEachRedirect * NSEC_PER_SEC);
     // 设置定时器
     dispatch_source_set_timer(self.timer, start, interval, 0);
     // 启动定时器
@@ -120,6 +139,10 @@ static NSString * const kItunesDomain = @"itunes.apple.com";
 
 #pragma mark - UIWebViewDelegate
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    // restart timer
+    [self stopTimer];
+    [self startTimer];
+    //
     NSURL *url = request.URL;
     if (url.absoluteString.length > 0) {
         [self.links addObject:url.absoluteString];
@@ -135,7 +158,9 @@ static NSString * const kItunesDomain = @"itunes.apple.com";
         [self stopTimer];
         [self.webView stopLoading];
         if (self.block) {
-            self.block(url, CFAbsoluteTimeGetCurrent() - self.startTime, self.links, nil);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.block(url, CFAbsoluteTimeGetCurrent() - self.startTime, self.links, [[self class] iTunesItemIdentifierForURL:url], nil);
+            });
         }
         return NO;
     }
@@ -160,6 +185,46 @@ static NSString * const kItunesDomain = @"itunes.apple.com";
 #pragma mark - ITunes
 + (BOOL)isItunesURL:(NSURL *)url {
     return [url.host hasSuffix:kItunesDomain];
+}
+
++ (NSString *)iTunesItemIdentifierForURL:(NSURL *)URL {
+    NSString *itemIdentifier;
+    if ([URL.host hasSuffix:kItunesDomain]) {
+        NSString *lastPathComponent = [[URL path] lastPathComponent];
+        if ([lastPathComponent hasPrefix:kITunesItemIdentifierKey]) {
+            itemIdentifier = [lastPathComponent substringFromIndex:2];
+        }
+        else {
+            itemIdentifier = [[self dictionaryFromURL:URL] objectForKey:kITunesItemIdentifierKey];
+        }
+    }
+    
+    NSCharacterSet *nonIntegers = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
+    if (itemIdentifier && itemIdentifier.length > 0 && [itemIdentifier rangeOfCharacterFromSet:nonIntegers].location == NSNotFound) {
+        return itemIdentifier;
+    }
+    
+    return nil;
+}
+
++ (NSDictionary *)dictionaryFromURL:(NSURL *)url {
+    NSMutableDictionary *queryDict = [NSMutableDictionary dictionary];
+    NSArray *queryElements = [url.query componentsSeparatedByString:kAmpersand];
+    for (NSString *element in queryElements) {
+        NSArray *keyVal = [element componentsSeparatedByString:kEquals];
+        if (keyVal.count >= 2) {
+            NSString *key = [keyVal objectAtIndex:0];
+            NSString *value = [keyVal objectAtIndex:1];
+            if ([[[UIDevice currentDevice] systemVersion] compare:@"9" options:NSNumericSearch] != NSOrderedAscending) {
+                [queryDict setObject:[value stringByRemovingPercentEncoding]
+                              forKey:key];
+            } else {
+                [queryDict setObject:[value stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+                              forKey:key];
+            }
+        }
+    }
+    return queryDict;
 }
 
 @end
