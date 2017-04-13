@@ -71,6 +71,9 @@ static NSString * const kITunesItemIdentifierKey = @"id";
 }
 
 - (void)stopDetecting {
+    if (self.redirecting) {
+        self.redirecting = NO;
+    }
     self.block = nil;
     [self stopTimer];
     [self.webView stopLoading];
