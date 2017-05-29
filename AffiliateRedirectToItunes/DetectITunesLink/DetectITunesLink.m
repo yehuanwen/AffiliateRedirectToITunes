@@ -19,19 +19,23 @@ static NSString * const kITunesItemIdentifierKey = @"id";
 
 @interface DetectITunesLink () <UIWebViewDelegate>
 
-@property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic, strong) UIWebView *webView;// web view to load request
 
-@property (nonatomic, strong) NSMutableArray *links;
-@property (nonatomic, strong) NSMutableArray *errorMessages;
+@property (nonatomic, strong) NSMutableArray *links;// redirect urls
+@property (nonatomic, strong) NSMutableArray *errorMessages;// error messages
 
 @property (nonatomic, assign) CGFloat startTime;// start time
 @property (nonatomic, strong) dispatch_source_t timer;// timer
 
-@property (nonatomic, assign) BOOL redirecting;
+@property (nonatomic, assign) BOOL redirecting;// is redirecting or not
 
 @end
 
 @implementation DetectITunesLink
+
+- (void)dealloc {
+    NSLog(@"dealloc");
+}
 
 - (instancetype)init {
     return [self initWithUrl:nil];
@@ -196,6 +200,12 @@ static NSString * const kITunesItemIdentifierKey = @"id";
         NSString *lastPathComponent = [[URL path] lastPathComponent];
         if ([lastPathComponent hasPrefix:kITunesItemIdentifierKey]) {
             itemIdentifier = [lastPathComponent substringFromIndex:2];
+            // Fix detect url condition is http://xxx/idxxx&xxx=xxx , not http://xxx/idxxx?xxx=xxx
+            // ? is replaced by &, so last path component is not right
+            NSArray *components = [itemIdentifier componentsSeparatedByString:kAmpersand];
+            if (components.count > 0) {
+                itemIdentifier = components.firstObject;
+            }
         }
         else {
             itemIdentifier = [[self dictionaryFromURL:URL] objectForKey:kITunesItemIdentifierKey];
